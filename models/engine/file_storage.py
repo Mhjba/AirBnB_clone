@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
+
 """
 Provides the FileStorage class for serialization and deserialization of instances.
 """
@@ -16,7 +16,7 @@ from models.place import Place
 class FileStorage:
     """serializes instances to a JSON file and
     deserializes JSON file to instances"""
-=======
+
 """Defines the FileStorage class."""
 
 import json
@@ -31,12 +31,12 @@ class FileStorage():
     __file_path: Path to JSON file
     __objects: Dictionary storing all objects
     """
->>>>>>> f900e61dc8183b4799ce5e29eeb5b33d25820179
+
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-<<<<<<< HEAD
+
         """Returns the dictionary of all objects."""
         return self.__objects
 
@@ -67,7 +67,7 @@ class FileStorage():
 
         except Exception:
             self.__objects = {}
-=======
+
         """Returns the dictionary __objects."""
         return FileStorage.__objects
 
@@ -96,4 +96,4 @@ class FileStorage():
                     self.new(obj_name)
         except FileNotFoundError:
             pass
->>>>>>> f900e61dc8183b4799ce5e29eeb5b33d25820179
+
