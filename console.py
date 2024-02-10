@@ -17,8 +17,9 @@ class HBNBCommand(cmd.Cmd):
     """Custom command interpreter for AirBnB project."""
 
     prompt = "(hbnb) "
-    __classes = ["BaseModel"]
-
+    __classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
+               'Place': Place, 'Amenity': Amenity, 'Review': Review,
+               'State': State}
     def do_quit(self, arg):
         """Exit the program."""
         return True
@@ -123,3 +124,4 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
+
