@@ -11,7 +11,7 @@ import sys
 
 
 class baseTest(unittest.TestCase):
-    """Class that tests the Review class"""
+    """Class that tests Review"""
 
     def test_init(self):
         """test initialisation"""
@@ -28,7 +28,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(model.my_number, 29)
 
     def test_initkwargs(self):
-        """Test initialization with kwargs"""
+        """test init with kwargs"""
         model = Review(name='Test', my_number=30)
         self.assertEqual(model.name, 'Test')
         self.assertEqual(model.my_number, 30)
@@ -61,7 +61,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(x, True)
 
     def test_save(self):
-        """Test updating attributes after/during save"""
+        """test update attr after/during save"""
         model = Review()
         x = model.updated_at
         model.name = "Test"

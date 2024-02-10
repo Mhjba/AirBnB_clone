@@ -11,16 +11,16 @@ import sys
 
 
 class baseTest(unittest.TestCase):
-    """Class that tests the User class"""
+    """Class that tests User"""
 
     def test_init(self):
-        """Test initialisation"""
+        """test initialisation"""
         model = User()
         model.name = "Test"
         self.assertEqual(model.name, 'Test')
 
     def test_init2(self):
-        """Test initialisation"""
+        """test initialisation"""
         model = User()
         model.name = "Test"
         model.my_number = 29
@@ -28,19 +28,19 @@ class baseTest(unittest.TestCase):
         self.assertEqual(model.my_number, 29)
 
     def test_initkwargs(self):
-        """Test initialization with kwargs"""
+        """test init with kwargs"""
         model = User(name='Test', my_number=30)
         self.assertEqual(model.name, 'Test')
         self.assertEqual(model.my_number, 30)
 
     def test_initid(self):
-        """Test allocation of uuid"""
+        """test allocation of uuid"""
         model = User()
         self.assertEqual(type(model.id), str)
         self.assertEqual(len(model.id), 36)
 
     def test_initdate(self):
-        """Test datetime"""
+        """test datetime"""
         model = User()
         x = str(datetime.now())[:-10]
         y = str(model.created_at)[:-10]
@@ -48,7 +48,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(x, y)
 
     def test_str(self):
-        """Test __str__"""
+        """test __str__"""
         model = User()
         model.name = "Test"
         model.my_number = 29
@@ -61,7 +61,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(x, True)
 
     def test_save(self):
-        """Test updating attributes after/during save"""
+        """test update attr after/during save"""
         model = User()
         x = model.updated_at
         model.name = "Test"
@@ -70,7 +70,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
 
     def test_todict(self):
-        """Test to_dict object function"""
+        """test to_dict object function"""
         model = User()
         x = model.to_dict()
         self.assertEqual('id' in x.keys(), True)
@@ -78,7 +78,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(type(x.get('created_at')), str)
 
     def test_todict2(self):
-        """Test to_dict with new attributes"""
+        """test to_dict with new attributes"""
         model = User()
         model.name = "Test"
         x = model.to_dict()
@@ -89,7 +89,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual('number' in x.keys(), True)
 
     def test_modelfromdict(self):
-        """Test creating User object from dict"""
+        """test creating basemodel from dict"""
         model = User()
         model.name = "Test"
         x = model.to_dict()

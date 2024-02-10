@@ -11,7 +11,7 @@ import sys
 
 
 class baseTest(unittest.TestCase):
-    """Class that tests City class"""
+    """Class that tests City"""
 
     def test_init(self):
         """test initialisation"""
@@ -28,7 +28,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(model.my_number, 29)
 
     def test_initkwargs(self):
-        """Test initialization with kwargs"""
+        """test init with kwargs"""
         model = City(name='Test', my_number=30)
         self.assertEqual(model.name, 'Test')
         self.assertEqual(model.my_number, 30)
@@ -61,7 +61,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual(x, True)
 
     def test_save(self):
-        """Test updating attributes after/during save"""
+        """test update attr after/during save"""
         model = City()
         x = model.updated_at
         model.name = "Test"
@@ -89,7 +89,7 @@ class baseTest(unittest.TestCase):
         self.assertEqual('number' in x.keys(), True)
 
     def test_modelfromdict(self):
-        """Test creating City object from dict"""
+        """test creating basemodel from dict"""
         model = City()
         model.name = "Test"
         x = model.to_dict()
@@ -102,3 +102,4 @@ class baseTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    

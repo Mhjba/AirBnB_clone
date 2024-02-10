@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Defines the Place class.
+Place class module
 """
 from models.base_model import BaseModel
 
