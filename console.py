@@ -12,6 +12,7 @@ from models.place import Place
 
 """This module of console these commands."""
 
+
 class HBNBCommand(cmd.Cmd):
     """Custom command interpreter for AirBnB project."""
 
@@ -42,9 +43,9 @@ class HBNBCommand(cmd.Cmd):
         elif argcom[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
-            new_cls = BaseModel()  # Create a new instance of BaseModel
-            new_cls.save()  # Save the new instance
-            print(new_cls.id)  # Print the id of the new instance
+            new_cls = BaseModel()
+            new_cls.save()
+            print(new_cls.id)
 
     def do_show(self, arg):
         """Print the string representation of an instance."""
@@ -84,7 +85,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """Print all instances in string representation."""
+        """ Print all instances in string representation """
         obj_id = storage.all()
         argcom = arg.split()
 
@@ -122,6 +123,8 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
+
 
