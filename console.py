@@ -10,25 +10,26 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 
-"""
-This module of console these commands."""
+"""This module of console these commands."""
+
 
 class HBNBCommand(cmd.Cmd):
     """Custom command interpreter for AirBnB project."""
 
     prompt = "(hbnb) "
     __classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
-               'Place': Place, 'Amenity': Amenity, 'Review': Review,
-               'State': State}
+                 'Place': Place, 'Amenity': Amenity, 'Review': Review,
+                 'State': State}
+
     def do_quit(self, arg):
         """Exit the program."""
         return True
-    
+
     def do_EOF(self, arg):
         """Exit the program on EOF."""
         print("")
         return True
-    
+
     def emptyline(self):
         """Do nothing when an empty line is entered."""
         pass
@@ -122,6 +123,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-

@@ -5,11 +5,11 @@ from contextlib import redirect_stdout
 import unittest
 from models.city import City
 from datetime import datetime
-import io 
+import io
 import os
 import sys
 
-  
+
 class baseTest(unittest.TestCase):
     """Class that tests City class"""
 
@@ -102,4 +102,3 @@ class baseTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
