@@ -7,7 +7,7 @@ from models.base_model import BaseModel
 
 class Place(BaseModel):
     """
-    This class creates place objects
+    Cette classe crée des objets lieu
     """
     name = ""
     city_id = ""

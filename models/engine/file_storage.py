@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This module contains FileStorage class
+Ce module contient la classe FileStorage
 """
 import json
 from models.base_model import BaseModel
@@ -13,8 +13,8 @@ from models.place import Place
 
 
 class FileStorage:
-    """serializes instances to a JSON file and
-    deserializes JSON file to instances"""
+    """sérialise les instances à un fichier JSON et
+    désérialise le fichier json aux instances"""
     __file_path = "file.json"
     __objects = {}
 
@@ -36,7 +36,7 @@ class FileStorage:
             f.write(json.dumps(obj_dict))
 
     def reload(self):
-        """deserializes the JSON file to __objects"""
+        """désérialise le fichier JSON en __object"""
         try:
             with open(self.__file_path, 'r', encoding="utf-8") as f:
                 data = json.loads(f.read())

@@ -7,6 +7,6 @@ from models.base_model import BaseModel
 
 class State(BaseModel):
     """
-    This class creates state objects
+    Cette classe crée des objets d'état
     """
     name = ""
