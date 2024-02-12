@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """
-Amenity class
+Class of amenities
 """
 from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
     """
-    This class creates amenity objects
+    Amenity objects are created by this class.
     """
     name = ""

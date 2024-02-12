@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This module contains Basemodel class
+describes all the traits that other classes have in common.
 """
 import uuid
 from datetime import datetime
@@ -9,11 +9,11 @@ import models
 
 class BaseModel:
     """
-    Defines all common attributes for other classes
+    outlines every shared characteristic for other classes.
     """
 
     def __init__(self, *args, **kwargs):
-        """Instance constructor"""
+        """constructor of instances"""
         if (kwargs):
             for key, value in kwargs.items():
                 if key == "__class__":
@@ -28,16 +28,16 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """Returns string rep of instance"""
+        """gives back the instance's string representation."""
         return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        """Updates attribute updated_at with current datetime"""
+        """applies the current date and time to the updated_at attribute."""
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of __dict__"""
+        """yields a dictionary with all of the __dict__'s keys and values."""
         temp = self.__dict__.copy()
         temp['created_at'] = self.created_at.isoformat()
         temp['updated_at'] = self.updated_at.isoformat()
