@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This module activates the Python command-line interface.
+Ce module active l'interface en ligne de commande Python
 """
 import json
 import cmd
@@ -17,7 +17,7 @@ import shlex
 
 
 def ev(val):
-    """this module of console these commands."""
+    """convertit les arguments appropriés en entier ou en décimal"""
     for i in val:
         try:
             yield json.loads(i)
@@ -38,7 +38,7 @@ def check_arg(argument, message):
 
 
 class HBNBCommand(cmd.Cmd):
-    """Command-line interface for the AirBnB clone."""
+    """Interface en ligne de commande pour le clone AirBnB"""
     prompt = '(hbnb) '
     file = None
     classes = ['BaseModel', 'Place', 'State',
@@ -50,11 +50,11 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_quit(self, argument_0):
-        """Quit command to exit the program"""
+        """Commande Quitter pour quitter le programme"""
         quit()
 
     def do_create(self, args):
-        """Creates a new instance of a class"""
+        """Crée une nouvelle instance d'une classe"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
@@ -89,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
-        """Deletes an instance based on class name and id"""
+        """Supprime une instance en fonction du nom de la classe et de l'identifiant"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
@@ -130,8 +130,8 @@ class HBNBCommand(cmd.Cmd):
         print(alList)
 
     def do_update(self, args):
-        """Updates an instance based on the class name and
-        the identifier by adding or updating the attribute"""
+        """Met à jour une instance en fonction du nom de la classe et de
+        l'identifiant en ajoutant ou en mettant à jour l'attribut"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
