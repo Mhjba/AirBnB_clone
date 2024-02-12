@@ -1,44 +1,105 @@
 #!/usr/bin/python3
-"""Defines unittests for models/state.py.
-Unittest classes:
-    TestState_instantiation
-    TestState_save
-    TestState_to_dict
-"""
-import os
+"""Unittest for BaseModel"""
+
+from contextlib import redirect_stdout
 import unittest
-from datetime import datetime
 from models.state import State
-from models import storage
-from models.base_model import BaseModel
+from datetime import datetime
+import io
+import os
+import sys
 
 
-class TestState_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the State class."""
-    """ test for state
-    """
+class baseTest(unittest.TestCase):
+    """Class that tests BaseModel"""
 
-    def setUp(self):
-        """ standard setUp()
-        """
-        self.model = State()
+    def test_init(self):
+        """test initialisation"""
+        model = State()
+        model.name = "Test"
+        self.assertEqual(model.name, 'Test')
 
-    def tearDownClass(cls):
-        """Clean up the dirt"""
-        del cls.model
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
+    def test_init2(self):
+        """test initialisation"""
+        model = State()
+        model.name = "Test"
+        model.my_number = 29
+        self.assertEqual(model.name, "Test")
+        self.assertEqual(model.my_number, 29)
 
-    def test_id_is_public_str(self):
-        self.assertEqual(str, type(State().id))
+    def test_initkwargs(self):
+        """test init with kwargs"""
+        model = State(name='Test', my_number=30)
+        self.assertEqual(model.name, 'Test')
+        self.assertEqual(model.my_number, 30)
 
-    def test_name_is_public_class_attribute(self):
-        st = State()
-        self.assertEqual(str, type(State.name))
-        self.assertIn("name", dir(st))
-        self.assertNotIn("name", st.__dict__)
+    def test_initid(self):
+        """test allocation of uuid"""
+        model = State()
+        self.assertEqual(type(model.id), str)
+        self.assertEqual(len(model.id), 36)
 
-if __name__ == "__main__":
-    unittest.main()    
+    def test_initdate(self):
+        """test datetime"""
+        model = State()
+        x = str(datetime.now())[:-10]
+        y = str(model.created_at)[:-10]
+        z = str(model.updated_at)[:-10]
+        self.assertEqual(x, y)
+
+    def test_str(self):
+        """test __str__"""
+        model = State()
+        model.name = "Test"
+        model.my_number = 29
+        output = ""
+        with io.StringIO() as buf, redirect_stdout(buf):
+            print(model)
+            output = buf.getvalue()
+        z = '\'my_number\': 29'
+        x = z in output
+        self.assertEqual(x, True)
+
+    def test_save(self):
+        """test update attr after/during save"""
+        model = State()
+        x = model.updated_at
+        model.name = "Test"
+        model.save()
+        self.assertNotEqual(x, model.updated_at)
+        self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
+
+    def test_todict(self):
+        """test to_dict object function"""
+        model = State()
+        x = model.to_dict()
+        self.assertEqual('id' in x.keys(), True)
+        self.assertEqual('created_at' in x.keys(), True)
+        self.assertEqual(type(x.get('created_at')), str)
+
+    def test_todict2(self):
+        """test to_dict with new attributes"""
+        model = State()
+        model.name = "Test"
+        x = model.to_dict()
+        self.assertEqual('name' in x.keys(), True)
+        self.assertEqual('number' in x.keys(), False)
+        model.number = 29
+        x = model.to_dict()
+        self.assertEqual('number' in x.keys(), True)
+
+    def test_modelfromdict(self):
+        """test creating basemodel from dict"""
+        model = State()
+        model.name = "Test"
+        x = model.to_dict()
+        self.assertEqual('number' in x.keys(), False)
+        self.assertEqual('name' in x.keys(), True)
+        model2 = State(**x)
+        self.assertEqual(model2.name, 'Test')
+        self.assertEqual(model2.created_at, model.created_at)
+
+
+if __name__ == '__main__':
+    unittest.main()
+    
