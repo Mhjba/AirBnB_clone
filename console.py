@@ -41,9 +41,8 @@ class HBNBCommand(cmd.Cmd):
     """Interface en ligne de commande pour le clone AirBnB"""
     prompt = '(hbnb) '
     file = None
-    __classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
-                 'Place': Place, 'Amenity': Amenity, 'Review': Review,
-                 'State': State}
+    classes = ['BaseModel', 'Place', 'State',
+               'City', 'Amenity', 'Review', 'User']
 
     def do_EOF(self, line):
         """EOF(Ctrl + D)"""
@@ -54,17 +53,13 @@ class HBNBCommand(cmd.Cmd):
         """Commande Quitter pour quitter le programme"""
         quit()
 
-    def emptyline(self):
-        """Do nothing when an empty line is entered."""
-        pass
-
     def do_create(self, args):
         """Crée une nouvelle instance d'une classe"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.__classes:
+        if argument[0] not in self.classes:
             print("** class doesn't exist **")
             return
         model = eval(argument[0])()
@@ -77,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.__classes:
+        if argument[0] not in self.classes:
             print("** class doesn't exist **")
             return
         if len(argument) < 2:
@@ -86,9 +81,9 @@ class HBNBCommand(cmd.Cmd):
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(argument[0], argument[1])
-        if cls in tempD.keys():
-            obj = tempD.get(cls)
+        y = "{}.{}".format(argument[0], argument[1])
+        if y in tempD.keys():
+            obj = tempD.get(y)
             print(obj)
         else:
             print("** no instance found **")
@@ -100,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.__classes:
+        if argument[0] not in self.classes:
             print("** class doesn't exist **")
             return
         if len(argument) < 2:
@@ -109,9 +104,9 @@ class HBNBCommand(cmd.Cmd):
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(argument[0], argument[1])
-        if cls in tempD.keys():
-            del tempD[cls]
+        y = "{}.{}".format(argument[0], argument[1])
+        if y in tempD.keys():
+            del tempD[y]
             storage.save()
         else:
             print("** no instance found **")
@@ -119,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """Crée une nouvelle instance d'une classe"""
         argument = shlex.split(args)
-        if len(argument) >= 1 and argument[0] not in self.__classes:
+        if len(argument) >= 1 and argument[0] not in self.classes:
             print("** class doesn't exist **")
             return
         storage = FileStorage()
@@ -151,8 +146,8 @@ class HBNBCommand(cmd.Cmd):
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(argument[0], argument[1])
-        if cls not in tempD.keys():
+        y = "{}.{}".format(argument[0], argument[1])
+        if y not in tempD.keys():
             print("** no instance found **")
             return
         if len(argument) < 3:
@@ -162,13 +157,18 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
         argument = list(ev(argument))
-        obj = tempD.get(cls)
+        obj = tempD.get(y)
         dict2 = obj.to_dict()
         dict2.update({argument[2]: argument[3]})
         obj2 = eval(argument[0])(**dict2)
         obj2.save()
-        tempD.update({cls: obj2})
+        tempD.update({y: obj2})
         storage.save()
+
+    def emptyline(self):
+        pass
+
+        return
 
     def default(self, args):
         """Gère les autres commandes"""
@@ -212,9 +212,9 @@ class HBNBCommand(cmd.Cmd):
             nouveau_ID = check_arg(argument, "destroy")
             if not nouveau_ID:
                 return
-            cls = f"{arg1}.{nouveau_ID}"
-            if cls in tempD.keys():
-                del tempD[cls]
+            y = f"{arg1}.{nouveau_ID}"
+            if y in tempD.keys():
+                del tempD[y]
                 storage.save()
             else:
                 print("** no instance found **")
@@ -232,9 +232,9 @@ class HBNBCommand(cmd.Cmd):
                 nouveau_ID = new_list[0].replace(',', '')
                 new_dict = new_list[1].replace('}', '')
                 new_list = list(new_dict.split(','))
-                cls = f"{arg1}.{nouveau_ID}"
+                y = f"{arg1}.{nouveau_ID}"
 
-                if cls in tempD.keys():
+                if y in tempD.keys():
                     for item in new_list:
                         try:
                             valx = list(item.split(':'))
@@ -242,8 +242,8 @@ class HBNBCommand(cmd.Cmd):
                         except Exception:
                             print("** attribute name missing **")
                             return
-                        setattr(tempD[cls], valx[0], valx[1])
-                    tempD[cls].save()
+                        setattr(tempD[y], valx[0], valx[1])
+                    tempD[y].save()
                     storage.save()
 
                 else:
@@ -255,9 +255,9 @@ class HBNBCommand(cmd.Cmd):
                 new_list.append(new_value)
                 new_list = list(ev(new_list))
                 new_value = new_list[0]
-                cls = f"{arg1}.{nouveau_ID}"
-                if cls in tempD.keys():
-                    setattr(tempD[cls], new_key, new_value)
+                y = f"{arg1}.{nouveau_ID}"
+                if y in tempD.keys():
+                    setattr(tempD[y], new_key, new_value)
                     storage.save()
                 else:
                     print("** no instance found **")
