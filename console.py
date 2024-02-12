@@ -41,8 +41,9 @@ class HBNBCommand(cmd.Cmd):
     """Interface en ligne de commande pour le clone AirBnB"""
     prompt = '(hbnb) '
     file = None
-    classes = ['BaseModel', 'Place', 'State',
-               'City', 'Amenity', 'Review', 'User']
+    classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
+               'Place': Place, 'Amenity': Amenity, 'Review': Review,
+               'State': State}
 
     def do_EOF(self, line):
         """EOF(Ctrl + D)"""
