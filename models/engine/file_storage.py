@@ -1,6 +1,12 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
+"""
+Ce module contient la classe FileStorage
+"""
+=======
 """Defines the FileStorage class."""
 
+>>>>>>> 5e6007f76892768484a8de792af1bf94be82d2e3
 import json
 from models.base_model import BaseModel
 from datetime import datetime
@@ -12,6 +18,11 @@ from models.amenity import Amenity
 from models.place import Place
 
 
+<<<<<<< HEAD
+class FileStorage:
+    """sérialise les instances à un fichier JSON et
+    désérialise le fichier json aux instances"""
+=======
 class FileStorage():
     """
     Serializes instances to a JSON file and deserializes
@@ -20,6 +31,7 @@ class FileStorage():
     __file_path: Path to JSON file
     __objects: Dictionary storing all objects
     """
+>>>>>>> 5e6007f76892768484a8de792af1bf94be82d2e3
     __file_path = "file.json"
     __objects = {}
 
@@ -42,7 +54,11 @@ class FileStorage():
             file.write(obj_name)
 
     def reload(self):
+<<<<<<< HEAD
+        """désérialise le fichier JSON en __object"""
+=======
         """Deserialize the JSON file __file_path to __objects, if it exists."""
+>>>>>>> 5e6007f76892768484a8de792af1bf94be82d2e3
         try:
             with open(FileStorage.__file_path, 'r') as file:
                 obj_dict = json.load(file)
