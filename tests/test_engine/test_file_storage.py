@@ -13,6 +13,7 @@ from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 
+
 class TestFileStorage(unittest.TestCase):
     """Unit tests for FileStorage class"""
 
@@ -81,6 +82,7 @@ class TestFileStorage(unittest.TestCase):
         storage.save()
         storage.reload()
         self.assertIn(f"BaseModel.{obj.id}", self.objects)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,109 +1,62 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
 """Test model for Place class"""
-=======
-"""Unittest for Place"""
->>>>>>> c92111c07ed74b70864a75dafe7b9605457af3a6
 
-from contextlib import redirect_stdout
 import unittest
+import os
 from models.place import Place
 from datetime import datetime
-import io
-import os
-import sys
+from models.base_model import BaseModel
 
 
-class baseTest(unittest.TestCase):
-    """Class that tests Place"""
+class TestPlace(unittest.TestCase):
+    """Place model class test case"""
 
-    def test_init(self):
-        """test initialisation"""
-        model = Place()
-        model.name = "Test"
-        self.assertEqual(model.name, 'Test')
+    def setUp(self):
+        """ standard setUp() """
+        self.model = Place()
+        self.model.save()
 
-    def test_init2(self):
-        """test initialisation"""
-        model = Place()
-        model.name = "Test"
-        model.my_number = 29
-        self.assertEqual(model.name, "Test")
-        self.assertEqual(model.my_number, 29)
+    def tearDownClass(cls):
+        """Clean up the dirt"""
+        del cls.model
+        try:
+            os.remove("file.json")
+        except FileNotFoundError:
+            pass
 
-    def test_initkwargs(self):
-        """test init with kwargs"""
-        model = Place(name='Test', my_number=30)
-        self.assertEqual(model.name, 'Test')
-        self.assertEqual(model.my_number, 30)
+    def test_public_attr(self):
+        """ if public attribute exists and if equal to
+        empty string, int, or float
+        """
+        self.assertTrue('id' in self.model.__dict__)
+        self.assertTrue('created_at' in self.model.__dict__)
+        self.assertTrue('updated_at' in self.model.__dict__)
+        self.assertTrue('city_id' in self.model.__dict__)
+        self.assertTrue('user_id' in self.model.__dict__)
+        self.assertTrue('name' in self.model.__dict__)
+        self.assertTrue('max_guest' in self.model.__dict__)
+        self.assertTrue('price_by_night' in self.model.__dict__)
+        self.assertTrue('latitude' in self.model.__dict__)
+        self.assertTrue('longitude' in self.model.__dict__)
+        self.assertTrue('amenity_ids' in self.model.__dict__)
+        self.assertTrue('description' in self.model.__dict__)
+        self.assertTrue('number_rooms' in self.model.__dict__)
+        self.assertTrue('number_bathrooms' in self.model.__dict__)
 
-    def test_initid(self):
-        """test allocation of uuid"""
-        model = Place()
-        self.assertEqual(type(model.id), str)
-        self.assertEqual(len(model.id), 36)
-
-    def test_initdate(self):
-        """test datetime"""
-        model = Place()
-        x = str(datetime.now())[:-10]
-        y = str(model.created_at)[:-10]
-        z = str(model.updated_at)[:-10]
-        self.assertEqual(x, y)
-
-    def test_str(self):
-        """test __str__"""
-        model = Place()
-        model.name = "Test"
-        model.my_number = 29
-        output = ""
-        with io.StringIO() as buf, redirect_stdout(buf):
-            print(model)
-            output = buf.getvalue()
-
-        z = '\'my_number\': 29'
-        x = z in output
-        self.assertEqual(x, True)
-
-    def test_save(self):
-        """test update attr after/during save"""
-        model = Place()
-        x = model.updated_at
-        model.name = "Test"
-        model.save()
-        self.assertNotEqual(x, model.updated_at)
-        self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
-
-    def test_todict(self):
-        """test to_dict object function"""
-        model = Place()
-        x = model.to_dict()
-        self.assertEqual('id' in x.keys(), True)
-        self.assertEqual('created_at' in x.keys(), True)
-        self.assertEqual(type(x.get('created_at')), str)
-
-    def test_todict2(self):
-        """test to_dict with new attributes"""
-        model = Place()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('name' in x.keys(), True)
-        self.assertEqual('number' in x.keys(), False)
-        model.number = 29
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), True)
-
-    def test_modelfromdict(self):
-        """test creating basemodel from dict"""
-        model = Place()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), False)
-        self.assertEqual('name' in x.keys(), True)
-        model2 = Place(**x)
-        self.assertEqual(model2.name, 'Test')
-        self.assertEqual(model2.created_at, model.created_at)
+    def test_string_attr(self):
+        """ input for each attr
+        """
+        self.assertIs(type(self.model.city_id), str)
+        self.assertIs(type(self.model.user_id), str)
+        self.assertIs(type(self.model.name), str)
+        self.assertIs(type(self.model.description), str)
+        self.assertIs(type(self.model.number_rooms), int)
+        self.assertIs(type(self.model.max_guest), int)
+        self.assertIs(type(self.model.price_by_night), int)
+        self.assertIs(type(self.model.latitude), float)
+        self.assertIs(type(self.model.longitude), float)
+        self.assertIs(type(self.model.amenity_ids), list)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
