@@ -7,7 +7,7 @@ from models.base_model import BaseModel
 
 class City(BaseModel):
     """
-    Cette classe crée des objets de la ville
+    This class creates city objects
     """
     state_id = ""
     name = ""

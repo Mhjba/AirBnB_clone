@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Ce module contient la classe Basemodel
+This module contains Basemodel class
 """
 import uuid
 from datetime import datetime
@@ -9,7 +9,7 @@ import models
 
 class BaseModel:
     """
-    Définit tous les attributs communs aux autres classes
+    Defines all common attributes for other classes
     """
 
     def __init__(self, *args, **kwargs):
@@ -32,7 +32,7 @@ class BaseModel:
         return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        """Met à jour l'attribut update_at avec la date/heure actuelle"""
+        """Updates attribute updated_at with current datetime"""
         self.updated_at = datetime.now()
         models.storage.save()
 
