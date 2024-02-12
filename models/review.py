@@ -7,7 +7,7 @@ from models.base_model import BaseModel
 
 class Review(BaseModel):
     """
-    Cette classe crée des objets de révision
+    This class creates review objects
     """
     place_id = ""
     user_id = ""
