@@ -7,6 +7,6 @@ from models.base_model import BaseModel
 
 class Amenity(BaseModel):
     """
-    This class creates amenity objects
+    Cette classe crée des objets d'agrément
     """
     name = ""
