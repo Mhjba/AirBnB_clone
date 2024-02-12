@@ -25,13 +25,13 @@ def ev(val):
             yield i
 
 
-def check_arg(arg, mesg):
+def check_arg(argument, message):
     try:
-        comd, nouveau_ID = arg.split('(')
+        command, nouveau_ID = argument.split('(')
     except Exception:
         print("** invalid command **")
         return None
-    if comd != mesg:
+    if command != message:
         print("** invalid command **")
         return None
     return nouveau_ID.replace(')', '')
@@ -60,33 +60,33 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """Crée une nouvelle instance d'une classe"""
-        arg = shlex.split(args)
-        if len(arg) < 1:
+        argument = shlex.split(args)
+        if len(argument) < 1:
             print("** class name missing **")
             return
-        if arg[0] not in self.__classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
-        model = eval(arg[0])()
+        model = eval(argument[0])()
         model.save()
         print(model.id)
 
     def do_show(self, args):
         """Affiche la représentation en chaîne d'une instance"""
-        arg = shlex.split(args)
-        if len(arg) < 1:
+        argument = shlex.split(args)
+        if len(argument) < 1:
             print("** class name missing **")
             return
-        if arg[0] not in self.__classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
-        if len(arg) < 2:
+        if len(argument) < 2:
             print("** instance id missing **")
             return
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(arg[0], arg[1])
+        cls = "{}.{}".format(argument[0], argument[1])
         if cls in tempD.keys():
             obj = tempD.get(cls)
             print(obj)
@@ -96,20 +96,20 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """Supprime une instance en fonction
         du nom de la classe et de l'identifiant"""
-        arg = shlex.split(args)
-        if len(arg) < 1:
+        argument = shlex.split(args)
+        if len(argument) < 1:
             print("** class name missing **")
             return
-        if arg[0] not in self.__classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
-        if len(arg) < 2:
+        if len(argument) < 2:
             print("** instance id missing **")
             return
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(arg[0], arg[1])
+        cls = "{}.{}".format(argument[0], argument[1])
         if cls in tempD.keys():
             del tempD[cls]
             storage.save()
@@ -118,54 +118,54 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """Crée une nouvelle instance d'une classe"""
-        arg = shlex.split(args)
-        if len(arg) >= 1 and arg[0] not in self.__classes:
+        argument = shlex.split(args)
+        if len(argument) >= 1 and argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        Lists = []
+        alList = []
 
         for key, obj in tempD.items():
-            if len(arg) >= 1:
+            if len(argument) >= 1:
                 if args[0] in key:
-                    Lists.append(str(obj))
+                    alList.append(str(obj))
             else:
-                Lists.append(str(obj))
-        print(Lists)
+                alList.append(str(obj))
+        print(alList)
 
     def do_update(self, args):
         """Met à jour une instance en fonction du nom de la classe et de
         l'identifiant en ajoutant ou en mettant à jour l'attribut"""
-        arg = shlex.split(args)
-        if len(arg) < 1:
+        argument = shlex.split(args)
+        if len(argument) < 1:
             print("** class name missing **")
             return
-        if arg[0] not in self.__classes:
+        if argument[0] not in self.classes:
             print("** class doesn't exist **")
             return
-        if len(arg) < 2:
+        if len(argument) < 2:
             print("** instance id missing **")
             return
         storage = FileStorage()
         storage.reload()
         tempD = storage.all()
-        cls = "{}.{}".format(arg[0], arg[1])
+        cls = "{}.{}".format(argument[0], argument[1])
         if cls not in tempD.keys():
             print("** no instance found **")
             return
-        if len(arg) < 3:
+        if len(argument) < 3:
             print("** attribute name missing **")
             return
-        if len(arg) < 4:
+        if len(argument) < 4:
             print("** value missing **")
             return
-        arg = list(ev(arg))
+        argument = list(ev(argument))
         obj = tempD.get(cls)
         dict2 = obj.to_dict()
-        dict2.update({arg[2]: arg[3]})
-        obj2 = eval(arg[0])(**dict2)
+        dict2.update({argument[2]: argument[3]})
+        obj2 = eval(argument[0])(**dict2)
         obj2.save()
         tempD.update({cls: obj2})
         storage.save()
@@ -174,10 +174,10 @@ class HBNBCommand(cmd.Cmd):
         """Gère les autres commandes"""
         args = shlex.split(args)
         try:
-            arg1, arg = args[0].split('.')
+            arg1, argument = args[0].split('.')
             if len(args) > 1:
                 for i in range(1, len(args)):
-                    arg += args[i]
+                    argument += args[i]
         except Exception:
             print("** invalid command **")
             return
@@ -192,14 +192,14 @@ class HBNBCommand(cmd.Cmd):
             if arg1 in key:
                 new_list.append(str(value))
 
-        if arg == "all()":
+        if argument == "all()":
             print(new_list)
 
-        elif arg == "count()":
+        elif argument == "count()":
             print(len(new_list))
 
-        elif "show" in arg:
-            nouveau_ID = check_arg(arg, "show")
+        elif "show" in argument:
+            nouveau_ID = check_arg(argument, "show")
             if not nouveau_ID:
                 return
             for items in new_list:
@@ -208,8 +208,8 @@ class HBNBCommand(cmd.Cmd):
                     return
             print("** no instance found **")
 
-        elif "destroy" in arg:
-            nouveau_ID = check_arg(arg, "destroy")
+        elif "destroy" in argument:
+            nouveau_ID = check_arg(argument, "destroy")
             if not nouveau_ID:
                 return
             cls = f"{arg1}.{nouveau_ID}"
@@ -219,8 +219,8 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-        elif "update" in arg:
-            new_arg = check_arg(arg, "update")
+        elif "update" in argument:
+            new_arg = check_arg(argument, "update")
             if not new_arg:
                 return
             if '{' in new_arg:
