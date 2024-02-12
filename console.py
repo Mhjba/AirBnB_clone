@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Ce module active l'interface en ligne de commande Python
+This module activates the Python command line interface.
 """
 import json
 import cmd
@@ -17,7 +17,7 @@ import shlex
 
 
 def ev(val):
-    """convertit les arguments appropriés en entier ou en décimal"""
+    """converts the appropriate arguments to whole numbers or decimals."""
     for i in val:
         try:
             yield json.loads(i)
@@ -38,7 +38,7 @@ def check_arg(argument, message):
 
 
 class HBNBCommand(cmd.Cmd):
-    """Interface en ligne de commande pour le clone AirBnB"""
+    """Online control interface for the AirBnB clone"""
     prompt = '(hbnb) '
     file = None
     classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
@@ -51,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_quit(self, argument_0):
-        """Commande Quitter pour quitter le programme"""
+        """Use the command "Quit" to end the application."""
         quit()
 
     def do_create(self, args):
@@ -90,8 +90,8 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
-        """Supprime une instance en fonction
-        du nom de la classe et de l'identifiant"""
+        """Eliminates a particular instance based on the class name and identifier
+        """
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
