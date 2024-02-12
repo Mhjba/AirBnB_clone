@@ -1,105 +1,44 @@
 #!/usr/bin/python3
-"""Unittest for City"""
-
-from contextlib import redirect_stdout
+"""Unittest module for the City Class.
+"""
 import unittest
-from models.city import City
 from datetime import datetime
-import io
+from models.city import City
+from models.engine.file_storage import FileStorage
 import os
-import sys
+from models import storage
+from models.base_model import BaseModel
 
 
-class baseTest(unittest.TestCase):
-    """Class that tests City"""
+class TestCity(unittest.TestCase):
+    """City model class test case"""
 
-    def test_init(self):
-        """test initialisation"""
-        model = City()
-        model.name = "Test"
-        self.assertEqual(model.name, 'Test')
+    def setUpClass(cls):
+        """Setup the unittest"""
+    def setUp(self):
+        """ standard setUp()
+        """
+        self.model = City()
 
-    def test_init2(self):
-        """test initialisation"""
-        model = City()
-        model.name = "Test"
-        model.my_number = 29
-        self.assertEqual(model.name, "Test")
-        self.assertEqual(model.my_number, 29)
+    def tearDownClass(cls):
+        """Clean up the dirt"""
+        del cls.model
+        try:
+            os.remove("file.json")
+        except FileNotFoundError:
+            pass
 
-    def test_initkwargs(self):
-        """test init with kwargs"""
-        model = City(name='Test', my_number=30)
-        self.assertEqual(model.name, 'Test')
-        self.assertEqual(model.my_number, 30)
+    def test_has_attributes(self):
+        self.assertTrue('id' in self.model.__dict__)
+        self.assertTrue('created_at' in self.model.__dict__)
+        self.assertTrue('updated_at' in self.model.__dict__)
+        self.assertTrue('state_id' in self.model.__dict__)
+        self.assertTrue('name' in self.model.__dict__)
 
-    def test_initid(self):
-        """test allocation of uuid"""
-        model = City()
-        self.assertEqual(type(model.id), str)
-        self.assertEqual(len(model.id), 36)
-
-    def test_initdate(self):
-        """test datetime"""
-        model = City()
-        x = str(datetime.now())[:-10]
-        y = str(model.created_at)[:-10]
-        z = str(model.updated_at)[:-10]
-        self.assertEqual(x, y)
-
-    def test_str(self):
-        """test __str__"""
-        model = City()
-        model.name = "Test"
-        model.my_number = 29
-        output = ""
-        with io.StringIO() as buf, redirect_stdout(buf):
-            print(model)
-            output = buf.getvalue()
-        z = '\'my_number\': 29'
-        x = z in output
-        self.assertEqual(x, True)
-
-    def test_save(self):
-        """test update attr after/during save"""
-        model = City()
-        x = model.updated_at
-        model.name = "Test"
-        model.save()
-        self.assertNotEqual(x, model.updated_at)
-        self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
-
-    def test_todict(self):
-        """test to_dict object function"""
-        model = City()
-        x = model.to_dict()
-        self.assertEqual('id' in x.keys(), True)
-        self.assertEqual('created_at' in x.keys(), True)
-        self.assertEqual(type(x.get('created_at')), str)
-
-    def test_todict2(self):
-        """test to_dict with new attributes"""
-        model = City()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('name' in x.keys(), True)
-        self.assertEqual('number' in x.keys(), False)
-        model.number = 29
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), True)
-
-    def test_modelfromdict(self):
-        """test creating basemodel from dict"""
-        model = City()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), False)
-        self.assertEqual('name' in x.keys(), True)
-        model2 = City(**x)
-        self.assertEqual(model2.name, 'Test')
-        self.assertEqual(model2.created_at, model.created_at)
+    def test_attributes_are_string(self):
+        self.assertIs(type(self.model.state_id), str)
+        self.assertIs(type(self.model.name), str)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-    

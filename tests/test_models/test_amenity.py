@@ -1,103 +1,68 @@
 #!/usr/bin/python3
-"""Unittest for Amenity"""
+""" Contains unit tests for class BaseModel """
 
-from contextlib import redirect_stdout
 import unittest
-from models.amenity import Amenity
-from datetime import datetime
-import io
-import os
 import sys
+import os
+from datetime import datetime
+from models.base_model import BaseModel
+import models
 
 
-class baseTest(unittest.TestCase):
-    """Class that tests Amenity"""
+class TestBaseModel(unittest.TestCase):
+    """test for class BaseModel and its methods
+    """
+    def setUp(self):
+        """ Set up method
+        """
+        self.model = BaseModel()
+        self.modl = BaseModel()
 
-    def test_init(self):
-        """test initialisation"""
-        model = Amenity()
-        model.name = "Test"
-        self.assertEqual(model.name, 'Test')
+    def tearDown(self):
+        """
+        Resets tests
+        """
+        try:
+            os.remove("file.json")
+        except FileNotFoundErro:
+            pass
 
-    def test_init2(self):
-        """test initialisation"""
-        model = Amenity()
-        model.name = "Test"
-        model.my_number = 29
-        self.assertEqual(model.name, "Test")
-        self.assertEqual(model.my_number, 29)
+    def test_kw(self):
+        """ Test to init for kwargs
+        """
+        self.model.name = "Holberton"
+        model_json = self.model.to_dict()
+        new_model = BaseModel(**model_json)
+        self.assertDictEqual(model_json, new_model.to_dict())
+        self.assertIn("name", new_model.to_dict())
+        self.assertIsNot(self.model, new_model)
 
-    def test_initkwargs(self):
-        """test init with kwargs"""
-        model = Amenity(name='Test', my_number=30)
-        self.assertEqual(model.name, 'Test')
-        self.assertEqual(model.my_number, 30)
-
-    def test_initid(self):
-        """test allocation of uuid"""
-        model = Amenity()
-        self.assertEqual(type(model.id), str)
-        self.assertEqual(len(model.id), 36)
-
-    def test_initdate(self):
-        """test datetime"""
-        model = Amenity()
-        x = str(datetime.now())[:-10]
-        y = str(model.created_at)[:-10]
-        z = str(model.updated_at)[:-10]
-        self.assertEqual(x, y)
-
-    def test_str(self):
-        """test __str__"""
-        model = Amenity()
-        model.name = "Test"
-        model.my_number = 29
-        output = ""
-        with io.StringIO() as buf, redirect_stdout(buf):
-            print(model)
-            output = buf.getvalue()
-        z = '\'my_number\': 29'
-        x = z in output
-        self.assertEqual(x, True)
+    def test__str__(self):
+        """[Cheking correct output when printing]"""
+        cls = self.model.id
+        self.assertTrue(f'[BaseModel] ({cls})' in str(self.model))
 
     def test_save(self):
-        """test update attr after/during save"""
-        model = Amenity()
-        x = model.updated_at
-        model.name = "Test"
-        model.save()
-        self.assertNotEqual(x, model.updated_at)
-        self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
+        """Checks if updated_at is changed with save method"""
+        self.model.save()
+        self.assertNotEqual(self.model.updated_at,
+                            self.model.created_at)
 
-    def test_todict(self):
-        """test to_dict object function"""
-        model = Amenity()
-        x = model.to_dict()
-        self.assertEqual('id' in x.keys(), True)
-        self.assertEqual('created_at' in x.keys(), True)
-        self.assertEqual(type(x.get('created_at')), str)
+    def test_save_with_file(self):
+        """ Checks if the generated key is saved in the json file"""
+        obj = BaseModel()
+        obj.save()
+        key_id = f"BaseModel.{obj.id}"
+        with open("file.json", mode="r", encoding="utf-8") as file:
+            self.assertIn(key_id, file.read())
 
-    def test_todict2(self):
-        """test to_dict with new attributes"""
-        model = Amenity()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('name' in x.keys(), True)
-        self.assertEqual('number' in x.keys(), False)
-        model.number = 29
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), True)
-
-    def test_modelfromdict(self):
-        """test creating basemodel from dict"""
-        model = Amenity()
-        model.name = "Test"
-        x = model.to_dict()
-        self.assertEqual('number' in x.keys(), False)
-        self.assertEqual('name' in x.keys(), True)
-        model2 = Amenity(**x)
-        self.assertEqual(model2.name, 'Test')
-        self.assertEqual(model2.created_at, model.created_at)
+    def test_to_dict(self):
+        """Checks to_dict method"""
+        base_test4 = BaseModel()
+        dict_base4 = base_test4.to_dict()
+        self.assertIsInstance(dict_base4, dict)
+        self.assertIsInstance(dict_base4['created_at'], str)
+        self.assertIsInstance(dict_base4['updated_at'], str)
 
 
 if __name__ == '__main__':

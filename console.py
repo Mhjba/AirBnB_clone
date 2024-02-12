@@ -41,8 +41,9 @@ class HBNBCommand(cmd.Cmd):
     """Interface en ligne de commande pour le clone AirBnB"""
     prompt = '(hbnb) '
     file = None
-    classes = ['BaseModel', 'Place', 'State',
-               'City', 'Amenity', 'Review', 'User']
+    classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
+               'Place': Place, 'Amenity': Amenity, 'Review': Review,
+               'State': State}
 
     def do_EOF(self, line):
         """EOF(Ctrl + D)"""
@@ -89,7 +90,8 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
-        """Supprime une instance en fonction du nom de la classe et de l'identifiant"""
+        """Supprime une instance en fonction
+        du nom de la classe et de l'identifiant"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
