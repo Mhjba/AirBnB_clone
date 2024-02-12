@@ -89,7 +89,8 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
-        """Supprime une instance en fonction du nom de la classe et de l'identifiant"""
+        """Supprime une instance en fonction
+        du nom de la classe et de l'identifiant"""
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
