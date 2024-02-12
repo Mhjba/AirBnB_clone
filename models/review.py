@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """
-Review class module
+This class creates review objects.
 """
 from models.base_model import BaseModel
 
 
 class Review(BaseModel):
     """
-    This class creates review objects
+    Review objects are created by this class.
     """
     place_id = ""
     user_id = ""

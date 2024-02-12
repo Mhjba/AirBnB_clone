@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """
-State class
+State category
 """
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
     """
-    This class creates state objects
+    State objects are created by this class.
     """
     name = ""
