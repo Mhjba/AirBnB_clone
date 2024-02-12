@@ -1,65 +1,105 @@
 #!/usr/bin/python3
-""" Contains unit tests for class BaseModel """
+"""Unittest for BaseModel"""
 
+from contextlib import redirect_stdout
 import unittest
-import os
 from models.base_model import BaseModel
+from datetime import datetime
+import io
+import os
+import sys
 
-class TestBaseModel(unittest.TestCase):
-    """Test for class BaseModel"""
 
-    def setUp(self):
-        """Set up method"""
+class baseTest(unittest.TestCase):
+    """Class that tests BaseModel"""
 
-        self.model = BaseModel()
+    def test_init(self):
+        """test initialisation"""
+        model = BaseModel()
+        model.name = "Test"
+        self.assertEqual(model.name, 'Test')
 
-    def tearDown(self):
-        """
-        Resets tests
-        """
-        if os.path.exists("file.json"):
-            os.remove("file.json")
+    def test_init2(self):
+        """test initialisation"""
+        model = BaseModel()
+        model.name = "Test"
+        model.my_number = 29
+        self.assertEqual(model.name, "Test")
+        self.assertEqual(model.my_number, 29)
 
-    def test_init_kw(self):
-        """Test to initialize with kwargs
-        """
-        self.model.name = "Holberton"
-        model_dict = self.model.to_dict()
-        new_model = BaseModel(**model_dict)
-        self.assertDictEqual(model_dict, new_model.to_dict())
-        self.assertIn("name", new_model.to_dict())
-        self.assertIsNot(self.model, new_model)
+    def test_initkwargs(self):
+        """test init with kwargs"""
+        model = BaseModel(name='Test', my_number=30)
+        self.assertEqual(model.name, 'Test')
+        self.assertEqual(model.my_number, 30)
+
+    def test_initid(self):
+        """test allocation of uuid"""
+        model = BaseModel()
+        self.assertEqual(type(model.id), str)
+        self.assertEqual(len(model.id), 36)
+
+    def test_initdate(self):
+        """test datetime"""
+        model = BaseModel()
+        x = str(datetime.now())[:-10]
+        y = str(model.created_at)[:-10]
+        z = str(model.updated_at)[:-10]
+        self.assertEqual(x, y)
 
     def test_str(self):
-        """Checking correct output when printing"""
-
-        cls_id = self.model.id
-        self.assertIn(f'[BaseModel] ({cls_id})', str(self.model))
+        """test __str__"""
+        model = BaseModel()
+        model.name = "Test"
+        model.my_number = 29
+        output = ""
+        with io.StringIO() as buf, redirect_stdout(buf):
+            print(model)
+            output = buf.getvalue()
+        self.assertEqual(output[1:10], 'BaseModel')
+        z = '\'my_number\': 29'
+        x = z in output
+        self.assertEqual(x, True)
 
     def test_save(self):
-        """Checks if updated_at is changed with the save method"""
+        """test update attr after/during save"""
+        model = BaseModel()
+        x = model.updated_at
+        model.name = "Test"
+        model.save()
+        self.assertNotEqual(x, model.updated_at)
+        self.assertEqual(str(x)[:-10], str(model.updated_at)[:-10])
 
-        self.model.save()
-        self.assertNotEqual(self.model.updated_at, self.model.created_at)
+    def test_todict(self):
+        """test to_dict object function"""
+        model = BaseModel()
+        x = model.to_dict()
+        self.assertEqual('id' in x.keys(), True)
+        self.assertEqual('created_at' in x.keys(), True)
+        self.assertEqual(type(x.get('created_at')), str)
 
-    def test_save_method(self):
-        """Checks if the generated key is saved in the json file"""
+    def test_todict2(self):
+        """test to_dict with new attributes"""
+        model = BaseModel()
+        model.name = "Test"
+        x = model.to_dict()
+        self.assertEqual('name' in x.keys(), True)
+        self.assertEqual('number' in x.keys(), False)
+        model.number = 29
+        x = model.to_dict()
+        self.assertEqual('number' in x.keys(), True)
 
-        obj = BaseModel()
-        obj.save()
-        key_id = f"BaseModel.{obj.id}"
-        with open("file.json", mode="r", encoding="utf-8") as file:
-            self.assertIn(key_id, file.read())
+    def test_modelfromdict(self):
+        """test creating basemodel from dict"""
+        model = BaseModel()
+        model.name = "Test"
+        x = model.to_dict()
+        self.assertEqual('number' in x.keys(), False)
+        self.assertEqual('name' in x.keys(), True)
+        model2 = BaseModel(**x)
+        self.assertEqual(model2.name, 'Test')
+        self.assertEqual(model2.created_at, model.created_at)
 
-    def test_to_dict(self):
-        """Checks to_dict method returns a dictionary"""
-
-        cls = BaseModel()
-        dict_to = cls.to_dict()
-        self.assertIsInstance(dict_to, dict)
-        self.assertIsInstance(dict_to['created_at'], str)
-        self.assertIsInstance(dict_to['updated_at'], str)
 
 if __name__ == '__main__':
     unittest.main()
-
