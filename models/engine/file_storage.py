@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 <<<<<<< HEAD
 """
-This module contains FileStorage class
+Ce module contient la classe FileStorage
 """
 =======
 """Defines the FileStorage class."""
@@ -20,7 +20,6 @@ from models.place import Place
 
 <<<<<<< HEAD
 class FileStorage:
-<<<<<<< HEAD
     """sérialise les instances à un fichier JSON et
     désérialise le fichier json aux instances"""
 =======
@@ -33,10 +32,6 @@ class FileStorage():
     __objects: Dictionary storing all objects
     """
 >>>>>>> 5e6007f76892768484a8de792af1bf94be82d2e3
-=======
-    """serializes instances to a JSON file and
-    deserializes JSON file to instances"""
->>>>>>> parent of 0c45b91... update this file
     __file_path = "file.json"
     __objects = {}
 
@@ -60,14 +55,10 @@ class FileStorage():
 
     def reload(self):
 <<<<<<< HEAD
-<<<<<<< HEAD
         """désérialise le fichier JSON en __object"""
 =======
         """Deserialize the JSON file __file_path to __objects, if it exists."""
 >>>>>>> 5e6007f76892768484a8de792af1bf94be82d2e3
-=======
-        """deserializes the JSON file to __objects"""
->>>>>>> parent of 0c45b91... update this file
         try:
             with open(FileStorage.__file_path, 'r') as file:
                 obj_dict = json.load(file)
