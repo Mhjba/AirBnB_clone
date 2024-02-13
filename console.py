@@ -41,9 +41,9 @@ class HBNBCommand(cmd.Cmd):
     """Online control interface for the AirBnB clone"""
     prompt = '(hbnb) '
     file = None
-    classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
-               'Place': Place, 'Amenity': Amenity, 'Review': Review,
-               'State': State}
+    __classes = {'BaseModel': BaseModel, 'User': User, 'City': City,
+                 'Place': Place, 'Amenity': Amenity, 'Review': Review,
+                 'State': State}
 
     def do_EOF(self, line):
         """EOF(Ctrl + D)"""
@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         model = eval(argument[0])()
@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         if len(argument) < 2:
@@ -90,13 +90,14 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
-        """Eliminates a particular instance based on the class name and identifier
+        """Eliminates a particular instance based
+        on the class name and identifier
         """
         argument = shlex.split(args)
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         if len(argument) < 2:
@@ -115,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """Crée une nouvelle instance d'une classe"""
         argument = shlex.split(args)
-        if len(argument) >= 1 and argument[0] not in self.classes:
+        if len(argument) >= 1 and argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         storage = FileStorage()
@@ -138,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argument) < 1:
             print("** class name missing **")
             return
-        if argument[0] not in self.classes:
+        if argument[0] not in self.__classes:
             print("** class doesn't exist **")
             return
         if len(argument) < 2:
@@ -182,7 +183,7 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             print("** invalid command **")
             return
-        if arg1 not in self.classes:
+        if arg1 not in self.__classes:
             print("** class doesn't exist ")
             return
         storage = FileStorage()
