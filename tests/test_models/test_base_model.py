@@ -53,7 +53,7 @@ class TestBaseModel(unittest.TestCase):
             self.assertIn(key_id, file.read())
 
     def test_to_dict(self):
-        """Checks to_dict method returns a dictionary"""
+        """The to_dict method's check yields a dictionary."""
 
         cls = BaseModel()
         dict_to = cls.to_dict()
