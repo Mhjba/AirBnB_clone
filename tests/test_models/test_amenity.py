@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Contains unit tests for class BaseModel """
+""" includes unit tests for the BaseModel class. """
 
 import unittest
 import sys
@@ -10,7 +10,7 @@ import models
 
 
 class TestBaseModel(unittest.TestCase):
-    """test for class BaseModel and its methods
+    """test for the BaseModel class and its operations
     """
     def setUp(self):
         """ Set up method
@@ -49,7 +49,7 @@ class TestBaseModel(unittest.TestCase):
                             self.model.created_at)
 
     def test_save_with_file(self):
-        """ Checks if the generated key is saved in the json file"""
+        """ Verifies whether the created key has been stored in the JSON file."""
         obj = BaseModel()
         obj.save()
         key_id = f"BaseModel.{obj.id}"
