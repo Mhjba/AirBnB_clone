@@ -1,8 +1,9 @@
-.header {
-    background-color: white;
-    height: 70px;
-    width: 100%;
+header {
+	color: white;
+	height: 70px;
+	width: 100%;
     border-bottom: 1px solid #CCCCCC;
+	display: flex;
 }
 
 .logo {
@@ -12,4 +13,5 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	margin-left: 20px;
+    display: block;
 }
