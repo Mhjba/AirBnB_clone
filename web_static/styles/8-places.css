@@ -92,4 +92,6 @@ footer {
 .user {
     padding: 20px 0;
     text-align: left;
+    margin: 0;
+    padding: 0;
 }
