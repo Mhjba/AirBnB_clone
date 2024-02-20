@@ -1,6 +1,7 @@
 article h2,
 article .price_by_night {
     display: inline-flex;
+    
 }
 .places {
     display: flex;
@@ -14,6 +15,7 @@ article .price_by_night {
     margin: 20px;
     padding: 20px;
     width: 390px;
+    text-align: right;
 }
   
 .places h1 {
@@ -21,6 +23,7 @@ article .price_by_night {
     font-weight: bold;
     margin: .67em 0 .67em 0;
     width: 100%;
+    
 }
   
 .places h2 {
@@ -28,18 +31,9 @@ article .price_by_night {
     font-weight: bold;
     margin: 0 auto;
     text-align: center;
-
 }
 footer {
     position: relative;
-}
-
-.places .name_and_price {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .price_by_night {
@@ -50,7 +44,7 @@ footer {
     min-width: 60px;
     height: 60px;
     padding: 20px 10px 0px 10px;
-    margin-left: 40px;
+    margin-left: 100px;
     font-size: 30px;
     text-align: center; 
 }
@@ -90,6 +84,10 @@ footer {
     display: flex;
     justify-content: center;
     align-items: end;
+}
+
+.description{
+    text-align: left;
 }
 .user {
     padding: 20px 0;
